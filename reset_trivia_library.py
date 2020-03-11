@@ -8,7 +8,7 @@ import pickle
 
 
 questions = {1:['Games Question', 'Answer 1', 'Answer 2', 'Answer 3', 'Answer 4', 'Correct Answer(1, 2, 3, 4)'],
-             2:['Games Question', 'Answer 1', 'Answer 2', 'Answer 3', 'Answer 4', 'Correct Answer(1, 2, 3, 4)]'], 
+             2:['Games Question', 'Answer 1', 'Answer 2', 'Answer 3', 'Answer 4', 'Correct Answer(1, 2, 3, 4)'], 
              3:['Geography Question', 'Answer 1', 'Answer 2', 'Answer 3', 'Answer 4', 'Correct Answer(1, 2, 3, 4)'],
              4:['Geography Question', 'Answer 1', 'Answer 2', 'Answer 3', 'Answer 4', 'Correct Answer(1, 2, 3, 4)'],
              5:['History Question', 'Answer 1', 'Answer 2', 'Answer 3', 'Answer 4', 'Correct Answer(1, 2, 3, 4)'],
