@@ -168,13 +168,9 @@ class Trivia(tk.Frame):
         
         self.btn_trivia_continue = tk.Button(self, text="Continue", font=BUTTON_FONT, command=self.go_conclusion)
         self.btn_trivia_continue.grid(row=8, column=0, columnspan=4, sticky="news") 
-        
-        
-    #def update(self):
-        
-        
     
     def go_conclusion(self):
+        self.btn_trivia_continue.config(state="disabled")
         messagebox.showinfo(message="Your answer was: Correct/Wrong")
         if self.question_number == 10:
             self.question_number = 1
@@ -184,6 +180,7 @@ class Trivia(tk.Frame):
         else:
             self.question_number += 1 
         self.lbl_question_num_out_of_num.config(text=str(self.question_number)+"/10                 ")
+        self.btn_trivia_continue.config(state="active")
 
 
 class Conclusion(Screen):

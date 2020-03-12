@@ -6,7 +6,7 @@
 
 import pickle
 
-
+#this dictionary should be 60 entries long, having 15 questions per category.    Template: 1:['Games Question', 'Answer 1', 'Answer 2', 'Answer 3', 'Answer 4', 'Correct Answer(1, 2, 3, 4)']
 questions = {1:['Games Question', 'Answer 1', 'Answer 2', 'Answer 3', 'Answer 4', 'Correct Answer(1, 2, 3, 4)'],
              2:['Games Question', 'Answer 1', 'Answer 2', 'Answer 3', 'Answer 4', 'Correct Answer(1, 2, 3, 4)'], 
              3:['Geography Question', 'Answer 1', 'Answer 2', 'Answer 3', 'Answer 4', 'Correct Answer(1, 2, 3, 4)'],
@@ -20,7 +20,7 @@ datafile = open("question_trivia_library.pickle", "wb")
 pickle.dump(questions, datafile)
 datafile.close()
 
-
+#this dictionary should be 30 entries long, having 5 people per category.  Template: 1:['Name', 'Score', 'Games Highscore']
 highscores = {1:['Name', 'Score', 'Games Highscore'],
               2:['Name', 'Score', 'Games Highscore'], 
               3:['Name', 'Score', 'Geography Highscore'],
