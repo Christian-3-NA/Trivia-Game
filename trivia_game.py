@@ -117,15 +117,16 @@ class MainMenu(Screen):
         frm_trivia_info.grid(row=0,column=0) 
         
     def go_highscores(self):
-        Screen.current=3
+        Screen.current=2
         Screen.switch_frame() 
         
         
-class Trivia(Screen):
+class Trivia(tk.Frame):
     
-    def __init__(self, current_trivia):
-        Screen.__init__(self)
-        self.question_number = 0
+    def __init__(self, parent, current_trivia):
+        tk.Frame.__init__(self, master=parent)
+        self.parent = parent
+        self.question_number = 1
         self.current_trivia = current_trivia
         
         self.grid_columnconfigure(0, weight=1)
@@ -147,7 +148,7 @@ class Trivia(Screen):
         self.lbl_question_num = tk.Label(self, text="Question:             ", font=LABEL_FONT)
         self.lbl_question_num.grid(row=0, column=0, sticky="ews")
         
-        self.lbl_question_num_out_of_num = tk.Label(self, text="__/10                 ", font=LABEL_FONT)
+        self.lbl_question_num_out_of_num = tk.Label(self, text=str(self.question_number)+"/10                 ", font=LABEL_FONT)
         self.lbl_question_num_out_of_num.grid(row=1, column=0, sticky="new")
         
         self.lbl_trivia_score = tk.Label(self, text="Your Score: ___/100", font=LABEL_FONT)
@@ -156,7 +157,7 @@ class Trivia(Screen):
         self.lbl_trivia_highscore = tk.Label(self, text="High Score: ___/100", font=LABEL_FONT)
         self.lbl_trivia_highscore.grid(row=1, column=3, sticky="new")
         
-        self.lbl_trivia_question_1 = tk.Label(self, text=self.current_trivia, font=TITLE_FONT)
+        self.lbl_trivia_question_1 = tk.Label(self, text=current_trivia, font=TITLE_FONT)
         self.lbl_trivia_question_1.grid(row=2,column=0, columnspan=4, sticky="ews")
         
         self.lbl_trivia_question_2 = tk.Label(self, text="Question Part 2", font=TITLE_FONT)
@@ -168,25 +169,22 @@ class Trivia(Screen):
         self.btn_trivia_continue = tk.Button(self, text="Continue", font=BUTTON_FONT, command=self.go_conclusion)
         self.btn_trivia_continue.grid(row=8, column=0, columnspan=4, sticky="news") 
         
+        
+    #def update(self):
+        
+        
     
     def go_conclusion(self):
         messagebox.showinfo(message="Your answer was: Correct/Wrong")
         if self.question_number == 10:
-            self.question_number = 0
-            Screen.current=2
-            Screen.switch_frame()  
+            self.question_number = 1
+            Screen.current=1
+            Screen.switch_frame()
+            self.parent.destroy()
         else:
-            self.question_number += 1
-            '''pop_up = tk.Tk()
-            pop_up.title("Answer")
-            
-            frm_trivia_answer=QuestionAnswered(pop_up)
-            frm_trivia_answer.grid(row=0,column=0)'''            
-            
-        
-        
-    
-        
+            self.question_number += 1 
+        self.lbl_question_num_out_of_num.config(text=str(self.question_number)+"/10                 ")
+
 
 class Conclusion(Screen):
     
@@ -238,9 +236,10 @@ class Conclusion(Screen):
         Screen.current=0
         Screen.switch_frame()
         
-    def go_trivia(self):
-        Screen.current=1
-        Screen.switch_frame()        
+    def go_trivia(self):                                                          #Fix because of trivia turning into a pop up
+        print("WOW! The should go to trivia!")
+        '''Screen.current=1
+        Screen.switch_frame()'''        
         
         
 class Highscores(Screen):
@@ -328,13 +327,11 @@ class AnswerButtons(tk.Frame):
         
         
 class TriviaSummary(tk.Frame):
-    global trivia_type
     
     def __init__(self, parent, trivia_category, category_info):
         tk.Frame.__init__(self, master=parent)
         self.parent = parent
         self.trivia_category = trivia_category
-        
         
         self.lbl_trivia_type = tk.Label(self, text=trivia_category, font=TITLE_FONT)
         self.lbl_trivia_type.grid(row=0, column=0, columnspan=2, sticky="news")        
@@ -361,46 +358,16 @@ class TriviaSummary(tk.Frame):
         self.btn_popup_continue = tk.Button(self, text="Continue", font=BUTTON_FONT, command=self.go_trivia)
         self.btn_popup_continue.grid(row=4, column=1, sticky="news")
         
-        
     def cancel(self):
         self.parent.destroy()
         
-    def go_trivia(self):
-        trivia_type = self.trivia_category
-        Screen.current=1
-        screens[Screen.current].update()
-        Screen.switch_frame()
-        self.parent.destroy()        
-
-
-'''class QuestionAnswered(tk.Frame):
-    
-    def __init__(self, parent):
-        tk.Frame.__init__(self, master=parent)
-        self.parent = parent
+    def go_trivia(self):                            
+        print("WOW! The should go to trivia!")
+        pop_up = tk.Tk()
+        pop_up.title("Trivia")
         
-        
-        self.lbl_your_answer = tk.Label(self, text="Your Answer Was:", font=LABEL_FONT)
-        self.lbl_your_answer.grid(row=0, column=0, sticky="news")
-        
-        self.ent_your_answer = tk.Entry(self)
-        self.ent_your_answer.grid(row=1, column=0, sticky="news")
-        
-        self.lbl_correct_answer = tk.Label(self, text="The Correct Answer Was:", font=LABEL_FONT)
-        self.lbl_correct_answer.grid(row=2, column=0, sticky="news")
-        
-        self.ent_correct_answer = tk.Entry(self)
-        self.ent_correct_answer.grid(row=3, column=0, sticky="news")
-        
-        self.lbl_trivia_type = tk.Label(self, text="Hooray! / You Suck!", font=LABEL_FONT)
-        self.lbl_trivia_type.grid(row=4, column=0, sticky="news")
-        
-        self.btn_trivia_next = tk.Button(self, text="Continue", font=BUTTON_FONT, command=self.next_question)
-        self.btn_trivia_next.grid(row=5, column=0, sticky="news") 
-        
-        
-    def next_question(self):
-        self.parent.destroy()'''    
+        frm_trivia=Trivia(pop_up, self.trivia_category)
+        frm_trivia.grid(row=0,column=0)                
         
         
 #---Global Functions---
@@ -423,11 +390,10 @@ if __name__ == "__main__":
     root.grid_columnconfigure(0, weight=1)
     root.grid_rowconfigure(0, weight=1)
     
-    screens = [MainMenu(), Trivia(), Conclusion(), Highscores()]
+    screens = [MainMenu(), Conclusion(), Highscores()]
     screens[0].grid(row=0,column=0,sticky="news")
     screens[1].grid(row=0,column=0,sticky="news")
     screens[2].grid(row=0,column=0,sticky="news")
-    screens[3].grid(row=0,column=0,sticky="news")
     
     
     screens[0].tkraise()
