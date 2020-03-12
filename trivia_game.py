@@ -18,7 +18,7 @@ LABEL_FONT = ("Arial", 18)
 
 #---Classes---
 class Screen(tk.Frame):
-    
+    trivia_type = ""
     current = 0
     
     def __init__(self):
@@ -404,7 +404,7 @@ class TriviaSummary(tk.Frame):
         
         
 #---Global Functions---
-trivia_type = ""
+
 
 #---Main---
 if __name__ == "__main__":
@@ -423,7 +423,7 @@ if __name__ == "__main__":
     root.grid_columnconfigure(0, weight=1)
     root.grid_rowconfigure(0, weight=1)
     
-    screens = [MainMenu(), Trivia(trivia_type), Conclusion(), Highscores()]
+    screens = [MainMenu(), Trivia(), Conclusion(), Highscores()]
     screens[0].grid(row=0,column=0,sticky="news")
     screens[1].grid(row=0,column=0,sticky="news")
     screens[2].grid(row=0,column=0,sticky="news")
