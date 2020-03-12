@@ -75,51 +75,45 @@ class MainMenu(Screen):
         
         
     def go_trivia_games(self):
-        self.going_trivia = 1
         pop_up = tk.Tk()
         pop_up.title("Info")
         
-        frm_trivia_info=TriviaSummary(pop_up)
+        frm_trivia_info=TriviaSummary(pop_up, "Games", "all kinds of video games.")
         frm_trivia_info.grid(row=0,column=0)
         
     def go_trivia_geography(self): 
-        self.going_trivia = 2
         pop_up = tk.Tk()
         pop_up.title("Info")
         
-        frm_trivia_info=TriviaSummary(pop_up)
+        frm_trivia_info=TriviaSummary(pop_up, "Geography", "lands and locations of today.")
         frm_trivia_info.grid(row=0,column=0)
         
     def go_trivia_history(self): 
-        self.going_trivia = 3
         pop_up = tk.Tk()
         pop_up.title("Info")
         
-        frm_trivia_info=TriviaSummary(pop_up)
+        frm_trivia_info=TriviaSummary(pop_up, "History", "historical events and people.")
         frm_trivia_info.grid(row=0,column=0)
         
     def go_trivia_music(self): 
-        self.going_trivia = 4
         pop_up = tk.Tk()
         pop_up.title("Info")
         
-        frm_trivia_info=TriviaSummary(pop_up)
+        frm_trivia_info=TriviaSummary(pop_up, "Music", "songs, from the modern to the classical.")
         frm_trivia_info.grid(row=0,column=0)
         
     def go_trivia_random(self):   
-        self.going_trivia = 5
         pop_up = tk.Tk()
         pop_up.title("Info")
         
-        frm_trivia_info=TriviaSummary(pop_up)
+        frm_trivia_info=TriviaSummary(pop_up, "Random", "every category, testing your knowledge.")
         frm_trivia_info.grid(row=0,column=0)
         
     def go_trivia_gauntlet(self):
-        self.going_trivia = 6
         pop_up = tk.Tk()
         pop_up.title("Info")
         
-        frm_trivia_info=TriviaSummary(pop_up)
+        frm_trivia_info=TriviaSummary(pop_up, "Gauntlet", "to test your mettle and flex your brain.")
         frm_trivia_info.grid(row=0,column=0) 
         
     def go_highscores(self):
@@ -129,9 +123,10 @@ class MainMenu(Screen):
         
 class Trivia(Screen):
     
-    def __init__(self):
+    def __init__(self, test):
         Screen.__init__(self)
         self.question_number = 0
+        print(test)
         
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
@@ -175,17 +170,18 @@ class Trivia(Screen):
         
     
     def go_conclusion(self):
+        messagebox.showinfo(message="Your answer was: Correct/Wrong")
         if self.question_number == 10:
             self.question_number = 0
             Screen.current=2
             Screen.switch_frame()  
         else:
             self.question_number += 1
-            pop_up = tk.Tk()
+            '''pop_up = tk.Tk()
             pop_up.title("Answer")
             
             frm_trivia_answer=QuestionAnswered(pop_up)
-            frm_trivia_answer.grid(row=0,column=0)            
+            frm_trivia_answer.grid(row=0,column=0)'''            
             
         
         
@@ -333,18 +329,24 @@ class AnswerButtons(tk.Frame):
         
 class TriviaSummary(tk.Frame):
     
-    def __init__(self, parent):
+    def __init__(self, parent, trivia_category, category_info):
         tk.Frame.__init__(self, master=parent)
         self.parent = parent
         
+        self.testing_variable = "gaming"
         
-        self.lbl_trivia_type = tk.Label(self, text="Type of Trivia", font=TITLE_FONT)
+        
+        self.lbl_trivia_type = tk.Label(self, text=trivia_category, font=TITLE_FONT)
         self.lbl_trivia_type.grid(row=0, column=0, columnspan=2, sticky="news")        
         
-        self.lbl_info_1 = tk.Label(self, text="Info 1", font=LABEL_FONT)
-        self.lbl_info_1.grid(row=1, column=0, columnspan=2, sticky="news")
+        if trivia_category == "Gauntlet":
+            self.lbl_info_1 = tk.Label(self, text="A 50 question marathon meant", font=LABEL_FONT)
+            self.lbl_info_1.grid(row=1, column=0, columnspan=2, sticky="news")
+        else:
+            self.lbl_info_1 = tk.Label(self, text="A 10 question quiz about", font=LABEL_FONT)
+            self.lbl_info_1.grid(row=1, column=0, columnspan=2, sticky="news")        
         
-        self.lbl_info_2 = tk.Label(self, text="Info 2", font=LABEL_FONT)
+        self.lbl_info_2 = tk.Label(self, text=category_info, font=LABEL_FONT)
         self.lbl_info_2.grid(row=2, column=0, columnspan=2, sticky="news")
         
         self.lbl_name = tk.Label(self, text="Name:", font=LABEL_FONT)
@@ -370,7 +372,7 @@ class TriviaSummary(tk.Frame):
         self.parent.destroy()        
 
 
-class QuestionAnswered(tk.Frame):
+'''class QuestionAnswered(tk.Frame):
     
     def __init__(self, parent):
         tk.Frame.__init__(self, master=parent)
@@ -397,7 +399,7 @@ class QuestionAnswered(tk.Frame):
         
         
     def next_question(self):
-        self.parent.destroy()    
+        self.parent.destroy()'''    
         
         
 #---Global Functions---
@@ -420,7 +422,7 @@ if __name__ == "__main__":
     root.grid_columnconfigure(0, weight=1)
     root.grid_rowconfigure(0, weight=1)
     
-    screens = [MainMenu(), Trivia(), Conclusion(), Highscores()]
+    screens = [MainMenu(), Trivia(testing_variable), Conclusion(), Highscores()]
     screens[0].grid(row=0,column=0,sticky="news")
     screens[1].grid(row=0,column=0,sticky="news")
     screens[2].grid(row=0,column=0,sticky="news")
