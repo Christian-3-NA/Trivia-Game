@@ -123,9 +123,10 @@ class MainMenu(Screen):
         
 class Trivia(Screen):
     
-    def __init__(self, trivia_category):
+    def __init__(self, current_trivia):
         Screen.__init__(self)
         self.question_number = 0
+        self.current_trivia = current_trivia
         
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
@@ -155,7 +156,7 @@ class Trivia(Screen):
         self.lbl_trivia_highscore = tk.Label(self, text="High Score: ___/100", font=LABEL_FONT)
         self.lbl_trivia_highscore.grid(row=1, column=3, sticky="new")
         
-        self.lbl_trivia_question_1 = tk.Label(self, text="Question Part 1", font=TITLE_FONT)
+        self.lbl_trivia_question_1 = tk.Label(self, text=self.current_trivia, font=TITLE_FONT)
         self.lbl_trivia_question_1.grid(row=2,column=0, columnspan=4, sticky="ews")
         
         self.lbl_trivia_question_2 = tk.Label(self, text="Question Part 2", font=TITLE_FONT)
@@ -327,10 +328,12 @@ class AnswerButtons(tk.Frame):
         
         
 class TriviaSummary(tk.Frame):
+    global trivia_type
     
     def __init__(self, parent, trivia_category, category_info):
         tk.Frame.__init__(self, master=parent)
         self.parent = parent
+        self.trivia_category = trivia_category
         
         
         self.lbl_trivia_type = tk.Label(self, text=trivia_category, font=TITLE_FONT)
@@ -363,13 +366,11 @@ class TriviaSummary(tk.Frame):
         self.parent.destroy()
         
     def go_trivia(self):
-        Trivia().tkraise()
-        
-        
-        '''Screen.current=1
+        trivia_type = self.trivia_category
+        Screen.current=1
         screens[Screen.current].update()
         Screen.switch_frame()
-        self.parent.destroy()'''        
+        self.parent.destroy()        
 
 
 '''class QuestionAnswered(tk.Frame):
@@ -403,7 +404,7 @@ class TriviaSummary(tk.Frame):
         
         
 #---Global Functions---
-
+trivia_type = ""
 
 #---Main---
 if __name__ == "__main__":
@@ -422,7 +423,7 @@ if __name__ == "__main__":
     root.grid_columnconfigure(0, weight=1)
     root.grid_rowconfigure(0, weight=1)
     
-    screens = [MainMenu(), Trivia(), Conclusion(), Highscores()]
+    screens = [MainMenu(), Trivia(trivia_type), Conclusion(), Highscores()]
     screens[0].grid(row=0,column=0,sticky="news")
     screens[1].grid(row=0,column=0,sticky="news")
     screens[2].grid(row=0,column=0,sticky="news")
