@@ -123,10 +123,9 @@ class MainMenu(Screen):
         
 class Trivia(Screen):
     
-    def __init__(self, test):
+    def __init__(self, trivia_category):
         Screen.__init__(self)
         self.question_number = 0
-        print(test)
         
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
@@ -333,8 +332,6 @@ class TriviaSummary(tk.Frame):
         tk.Frame.__init__(self, master=parent)
         self.parent = parent
         
-        self.testing_variable = "gaming"
-        
         
         self.lbl_trivia_type = tk.Label(self, text=trivia_category, font=TITLE_FONT)
         self.lbl_trivia_type.grid(row=0, column=0, columnspan=2, sticky="news")        
@@ -366,10 +363,13 @@ class TriviaSummary(tk.Frame):
         self.parent.destroy()
         
     def go_trivia(self):
-        Screen.current=1
+        Trivia().tkraise()
+        
+        
+        '''Screen.current=1
         screens[Screen.current].update()
         Screen.switch_frame()
-        self.parent.destroy()        
+        self.parent.destroy()'''        
 
 
 '''class QuestionAnswered(tk.Frame):
@@ -422,7 +422,7 @@ if __name__ == "__main__":
     root.grid_columnconfigure(0, weight=1)
     root.grid_rowconfigure(0, weight=1)
     
-    screens = [MainMenu(), Trivia(testing_variable), Conclusion(), Highscores()]
+    screens = [MainMenu(), Trivia(), Conclusion(), Highscores()]
     screens[0].grid(row=0,column=0,sticky="news")
     screens[1].grid(row=0,column=0,sticky="news")
     screens[2].grid(row=0,column=0,sticky="news")
